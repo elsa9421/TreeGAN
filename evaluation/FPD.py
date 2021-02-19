@@ -5,7 +5,8 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 import numpy as np
 import torch
 from scipy.linalg import sqrtm
-from scipy.misc import imread
+#from scipy.misc import imread
+from imageio import imread
 from torch.nn.functional import adaptive_avg_pool2d
 from evaluation.pointnet import PointNetCls
 from data.dataset_benchmark import BenchmarkDataset
