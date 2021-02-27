@@ -11,7 +11,7 @@ from arguments import Arguments
 
 
 import time
-import visdom
+#import visdom
 import numpy as np
 
 
