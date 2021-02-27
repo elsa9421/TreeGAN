@@ -29,7 +29,18 @@ class Arguments:
         self._parser.add_argument('--DEGREE', type=int, default=[1,  2,   2,   2,   2,   2,   64], nargs='+', help='Upsample degrees for generator.')
         self._parser.add_argument('--G_FEAT', type=int, default=[96, 256, 256, 256, 128, 128, 128, 3], nargs='+', help='Features for generator.')
         self._parser.add_argument('--D_FEAT', type=int, default=[3,  64,  128, 256, 512, 1024], nargs='+', help='Features for discriminator.')
-
+        
+        
+        ## Adding arguments
+       
+        self._parser.add_argument('--save_images', type=str, default='./model/save_images/', help='Matplotlib images saved in this path.')
+        self._parser.add_argument('--save_pts_files', type=str, default='./model/save_pts/', help='.pts files saved in this path.')
+        self._parser.add_argument('--train', type=str, default="False", help='to train the model pass True. To test the model pass False')
+        self._parser.add_argument('--save_at_epoch', type=int, default=1, help='Save checkpoint after at x epoch if ckpt_save is not None')
+        self._parser.add_argument('--seed', type=int, default=[10, 40, 80, 100, 120, 140, 160], nargs='+', help='to provide an array of random seeds as input, these will be used as a seed for np.random.seed(x) to generate the latent vector')
+        
+        ### End of addition of argumens
+        
         # Evaluation arguments
         self._parser.add_argument('--FPD_path', type=str, default='./evaluation/pre_statistics_chair.npz', help='Statistics file path to evaluate FPD metric. (default:all_class)')
 
