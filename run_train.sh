@@ -1,6 +1,7 @@
 pip install scipy
 pip install Pillow
 pip install imageio
+pip install matplotlib
 
 # TRAIN=$true
 DATASET_PATH=$1
