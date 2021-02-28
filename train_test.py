@@ -11,7 +11,7 @@ from arguments import Arguments
 
 
 import time
-#import visdom
+import visdom
 import numpy as np
 
 
@@ -88,8 +88,7 @@ class TreeGAN():
             args_copy = copy.deepcopy(args)
             
             args_copy.batch_size = 1
-            print("args_copy.batch_size=", args_copy.batch_size)
-            print("original self.args=", self.args.batch_size)
+
             Gen = TreeGAN(args_copy)
             
        
@@ -245,8 +244,12 @@ class TreeGAN():
                     z = torch.randn(self.args.batch_size, 1, 96).to(self.args.device)
                     tree = [z]
                     
+                    
                     with torch.no_grad():
                         fake_point = self.G(tree)    
+                    
+#                     print("fake_point.shape!=", fake_point.shape)
+                   
                         
                         
                     D_real = self.D(point)
@@ -254,7 +257,10 @@ class TreeGAN():
 
                     D_fake = self.D(fake_point)
                     D_fakem = D_fake.mean()
-
+                    
+#                     print("checking point size", point.data.shape)
+#                     print("CHECKING SIZE", fake_point.data.shape)
+                    
                     gp_loss = self.GP(self.D, point.data, fake_point.data)
                     
                     d_loss = -D_realm + D_fakem
@@ -289,19 +295,21 @@ class TreeGAN():
 
 
             # ---------------- Frechet Pointcloud Distance --------------- #
-            if epoch % self.args.save_at_epoch == 0 and not result_path == None:
-                 fake_pointclouds = torch.Tensor([])
-                 for i in range(250): # For 5000 samples
-                     z = torch.randn(self.args.batch_size, 1, 96).to(self.args.device)
-                     tree = [z]
-                     with torch.no_grad():
-                         sample = self.G(tree).cpu()
-                     fake_pointclouds = torch.cat((fake_pointclouds, sample), dim=0)
+#             if epoch % self.args.save_at_epoch == 0 and not result_path == None:
+#                  fake_pointclouds = torch.Tensor([])
+#                  for i in range(10): # For 5000 samples
+#                      z = torch.randn(self.args.batch_size, 1, 96).to(self.args.device)
+#                      tree = [z]
+#                      with torch.no_grad():
+#                          sample = self.G(tree).cpu()
+#                      fake_pointclouds = torch.cat((fake_pointclouds, sample), dim=0)
 
-                 fpd = calculate_fpd(fake_pointclouds, statistic_save_path=self.args.FPD_path, batch_size=100, dims=1808, device=self.args.device)
-                 metric['FPD'].append(fpd)
-                 print('[{:4} Epoch] Frechet Pointcloud Distance <<< {:.10f} >>>'.format(epoch, fpd))
-
+#                  fpd = calculate_fpd(fake_pointclouds, statistic_save_path=self.args.FPD_path, batch_size=100, dims=1808, device=self.args.device)
+#                  metric['FPD'].append(fpd)
+#                  print('[{:4} Epoch] Frechet Pointcloud Distance <<< {:.10f} >>>'.format(epoch, fpd))
+                
+#                  del fake_pointclouds
+ #-------------------------------------------------------------------------------
 #                 class_name = args.class_choice if args.class_choice is not None else 'all'
                 
 #                 torch.save(fake_pointclouds, result_path+str(epoch)+'_'+class_name+'.pt')
